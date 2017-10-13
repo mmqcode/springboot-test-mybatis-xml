@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--客户映射 指定到dao接口 -->
+<mapper namespace="com.test.mapper.BlzImgMapper">
+
+    <resultMap id="BaseResultMap" type="com.test.entity.BlzImgEntity">
+        <id column="id" property="id" jdbcType="VARCHAR"></id>
+        <result column="img_name" property="imgName" jdbcType="VARCHAR" />
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+        <result column="img_size" property="imgSize" jdbcType="INTEGER" />
+        <result column="img_group" property="imgGroup" jdbcType="VARCHAR" />
+        <result column="img_source" property="imgSource" jdbcType="VARCHAR" />
+        <result column="img_name_ch" property="imgNameCH" jdbcType="VARCHAR" />
+        <result column="img_descripe" property="imgDescripe" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <sql id="Column_List">
+        id, img_name, img_url, img_size, img_group, img_source, img_name_ch, img_descripe, update_time, create_time
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Column_List" />
+          FROM blz_img
+    </select>
+
+    <select id="getOne" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Column_List" />
+          FROM blz_img
+          WHERE id=#{id}
+    </select>
+
+    <insert id="insert" parameterType="com.test.entity.BlzImgEntity">
+        INSERT INTO
+                blz_img
+                (id, img_name, img_url, img_size, img_group, img_name_ch, img_descripe, create_time)
+          VALUES
+                (#{id}, #{imgName}, #{imgUrl}, #{imgSize}, #{imgGroup}, #{imgNameCH}, #{imgDescripe}, #{createTime})
+    </insert>
+    
+    <update id="update" parameterType="com.test.entity.BlzImgEntity">
+        UPDATE
+            blz_img
+        SET
+          <if test="imgName != null" >img_name = #{imgName}</if>
+          <if test="imgUrl != null" >img_url = #{imgUrl}</if>
+        WHERE
+            id = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM
+                blz_img
+        WHERE
+              id = #{id}
+    </delete>
+
+
+</mapper>
